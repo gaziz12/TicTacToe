@@ -1,7 +1,7 @@
-import 'dart:collection';
-
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:tictactoe/game_button.dart';
+
 
 class HomePage extends StatefulWidget {
   @override 
@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
     var player1;
     var player2;
     var activePlayer;
-    final Map<String,List<int>> possibleCombinations = HashMap<String, List<int>>();
+    var possibleCombinations = Map();
 
     @override
   void initState() {
@@ -78,7 +78,7 @@ class HomePage extends StatefulWidget {
 
   void playGame(GameButton gameButtonsList) {
     setState(() {
-      if(activePlayer ==1){
+      if(activePlayer == 1){
         gameButtonsList.text = "X";
         gameButtonsList.bg = Colors.red;
         activePlayer = 2;
@@ -97,12 +97,19 @@ class HomePage extends StatefulWidget {
       
   void checkWinner() {
     var winner = -1;
-    for(var i in possibleCombinations.entries){
-      i.key
-    }
-    if(player1.contains(1) && player1.contains(2) && player1.contains(3)){
-      winner = 1;
-    }
+    Function deepEq = const DeepCollectionEquality.unordered().equals;
+    possibleCombinations.forEach((k,v) => {
+      print("player1 + $player1 || $v"),
+      print("player2 + $player2 || $v"),
+      if(deepEq(player1, v)){
+        print("player1 wins: + $player1 || $v"),
+        winner = 1
+      }
+      else if(deepEq(player2, v)){
+        print("player2 wins: + $player2 || $v"),
+        winner = 2
+      }
+    }); 
   }
 
   void getAllPossibleCombinations(){ 
