@@ -1,4 +1,4 @@
 Database:
 - "Database/**"
 Ares-Api:
-- "Ares-Api/*.cs"
+- "Ares-Api/**"
